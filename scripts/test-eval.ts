@@ -1,5 +1,5 @@
 /**
- * Runs all surrogates inside of a (fake) browser enviroment to check for obvious runtime issues.
+ * Runs all surrogates inside of a (fake) browser environment to check for obvious runtime issues.
  */
 import fs from 'fs';
 import path from 'path';
