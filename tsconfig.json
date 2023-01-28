@@ -1,16 +1,23 @@
 {
   "compilerOptions": {
     "lib": [
-      "DOM"
+      "DOM",
+      "ES2022"
     ],
     "target": "es2016",
-    "module": "commonjs",
+    "module": "CommonJS",
     "baseUrl": "./",
+    "noEmit": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "allowJs": true
+    "allowJs": true,
+    "moduleResolution": "node16",
+    "resolveJsonModule": true,
+    "types": [
+      "node"
+    ]
   },
   "include": [
     "scripts",
