@@ -4,7 +4,7 @@
   "scripts": {
     "lint-js": "eslint .",
     "test-eval": "ts-node ./scripts/test-eval.ts",
-    "test-mapping": "node ./scripts/test-mapping.js",
+    "test-mapping": "ts-node ./scripts/test-mapping.ts",
     "test": "npm run lint-js && npm run test-mapping && npm run test-eval",
     "build": "ts-node ./scripts/concat.ts"
   },
