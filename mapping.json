@@ -19,7 +19,7 @@
         { "regexRule": "googlesyndication\\.com\\/pagead\\/js\\/adsbygoogle\\.js", "surrogate": "adsbygoogle.js" }
     ],
     "doubleclick.net": [
-        { "regexRule": "doubleclick\\.net\\/instream\\/ad_status\\.js", "surrogate": "ad_status.js" },
+        { "regexRule": "doubleclick\\.net\\/instream\\/ad_status\\.js", "surrogate": "ad_status.ts" },
         { "regexRule": "doubleclick\\.net\\/tag\\/js\\/gpt\\.js", "surrogate": "gpt.js" }
     ],
     "scorecardresearch.com": [
