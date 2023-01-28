@@ -8,13 +8,13 @@
     "module": "CommonJS",
     "baseUrl": "./",
     "noEmit": true,
-    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "moduleResolution": "node16",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
+    "esModuleInterop": true,
     "types": [
       "node"
     ]
