@@ -10,23 +10,13 @@ interface SurrogateRule {
     regexRule: string
     surrogate: string
 }
+// The retyping here is not the cleanest but it is the easiest way to get it working.
 const mapping: Record<string, SurrogateRule[]> = untypedMapping;
 
 const surrogatesDir = path.join(path.dirname(__dirname), 'surrogates');
 const buildsDir = path.join(path.dirname(__dirname), 'builds');
 
-let output = `# This file contains "surrogates". Surrogates are small scripts that our apps and extensions serve in place of trackers that cause site breakage when blocked.
-# Learn more: https://github.com/duckduckgo/tracker-surrogates`;
-
-function findSurrogateDomain(surrogate: string): string | undefined {
-    const domain = Object.keys(mapping).find((domainKey) =>
-        mapping[domainKey].find((s) => s.surrogate === surrogate)
-    );
-
-    return domain;
-}
-
-function mapSurrogate(surrogate: string): string {
+const surrogates = fs.readdirSync(surrogatesDir).map((surrogate: string) => {
     const filepath = path.resolve(surrogatesDir, surrogate);
     const stat = fs.statSync(filepath);
 
@@ -36,17 +26,20 @@ function mapSurrogate(surrogate: string): string {
 
     // strip blank lines from surrogates, or it breaks parsing in BSK
     const text = fs.readFileSync(filepath, 'utf-8').replace(/^\s*[\r\n]/gm, '');
-    const domain = findSurrogateDomain(surrogate);
+    const domain = Object.keys(mapping).find((domainKey) =>
+        mapping[domainKey].find((s) => s.surrogate === surrogate)
+    );
 
     if (!domain) {
         throw new Error(`🛑 Domain for surrogate missing - ${surrogate}.`);
     }
 
     return `${domain}/${surrogate} application/javascript\n${text}`;
-}
+});
 
-const surrogates = fs.readdirSync(surrogatesDir).map(mapSurrogate).join('\n');
-output = [output, surrogates].join('\n');
+let output = `# This file contains "surrogates". Surrogates are small scripts that our apps and extensions serve in place of trackers that cause site breakage when blocked.
+# Learn more: https://github.com/duckduckgo/tracker-surrogates`;
+output = [output, ...surrogates].join('\n');
 
 if (!fs.existsSync(buildsDir)) {
     fs.mkdirSync(buildsDir);
