@@ -12,6 +12,7 @@ declare global {
 
 (() => {
     'use strict';
+
     const noop = () => {
         // placeholder
     };
