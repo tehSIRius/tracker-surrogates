@@ -1,15 +1,21 @@
 (() => {
-    const noop = () => {};
+    const noop = () => {
+        // Placeholder
+    };
+
     const cxApiHandler = {
-        get: function (target, prop) {
+        get: (target: Record<string, unknown>, prop: string) => {
             if (typeof target[prop] !== 'undefined') {
-                return Reflect.get(...arguments);
+                return Reflect.get(target, prop);
             }
+
             return noop;
-        }
+        },
     };
+
     const cxApiTarget = {
-        chooseVariation: () => { return 0; }
+        chooseVariation: () => 0,
     };
+
     window.cxApi = new Proxy(cxApiTarget, cxApiHandler);
 })();
