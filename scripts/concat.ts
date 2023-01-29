@@ -20,8 +20,9 @@ const surrogates = fs.readdirSync(surrogatesDir).map((surrogate) => {
         return '';
     }
 
+    const surrogateFileName = surrogate.split('.')[0];
     const domain = Object.keys(mapping).find((domainKey) =>
-        mapping[domainKey].find((s) => s.surrogate === surrogate)
+        mapping[domainKey].find((s) => s.surrogate.split('.')[0] === surrogateFileName)
     );
 
     if (!domain) {
@@ -41,7 +42,7 @@ const surrogates = fs.readdirSync(surrogatesDir).map((surrogate) => {
         );
     }
 
-    return `${domain}/${surrogate} application/javascript\n${content.outputFiles[0].text}`;
+    return `${domain}/${surrogateFileName}.js application/javascript\n${content.outputFiles[0].text}`;
 });
 
 const introduction = `# This file contains "surrogates". Surrogates are small scripts that our apps and extensions serve in place of trackers that cause site breakage when blocked.
