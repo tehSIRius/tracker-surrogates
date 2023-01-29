@@ -19,9 +19,7 @@ declare global {
     };
 
     const noopHandler = {
-        get: () => {
-            return noop;
-        },
+        get: () => noop,
     };
 
     window.amznads = new Proxy({}, noopHandler);

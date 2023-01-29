@@ -17,9 +17,7 @@ declare global {
     };
 
     const noopHandler = {
-        get: () => {
-            return noop;
-        },
+        get: () => noop,
     };
 
     const gaPointer = (window.GoogleAnalyticsObject =
