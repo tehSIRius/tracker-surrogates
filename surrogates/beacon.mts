@@ -1,6 +1,10 @@
 (() => {
     'use strict';
-    const noop = () => {};
+
+    const noop = () => {
+        // Placeholder
+    };
+    
     window.udm_ = noop;
     window._comscore = [];
     window.COMSCORE = {
