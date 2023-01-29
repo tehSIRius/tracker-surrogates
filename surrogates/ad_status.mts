@@ -1,4 +1,10 @@
+declare global {
+    interface Window {
+        google_ad_status?: number;
+    }
+}
+
 (() => {
     'use strict';
-    (window as unknown as { google_ad_status: number }).google_ad_status = 1;
+    window.google_ad_status = 1;
 })();
