@@ -64,6 +64,11 @@ declare global {
 		// ga
 		_gat?: Record<string, unknown>;
 		_gaq?: Record<string, unknown>;
+
+		// gpt
+		googletag?: {
+			cmd?: string[];
+		}
 	}
 }
 
