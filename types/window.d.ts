@@ -16,6 +16,9 @@ declare global {
 			hide?: {
 				end?: () => void;
 			};
+
+			// gtm
+			push?: (argument: unknown) => void;
 		};
 
 		// api
