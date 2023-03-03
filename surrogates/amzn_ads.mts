@@ -1,12 +1,3 @@
-declare global {
-	interface Window {
-		amznads?: object;
-		amzn_ads?: object;
-		aax_write?: object;
-		aax_render_ad?: object;
-	}
-}
-
 (() => {
     'use strict';
 

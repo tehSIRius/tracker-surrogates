@@ -1,15 +1,3 @@
-declare global {
-	interface Window extends Record<string, unknown> {
-		GoogleAnalyticsObject?: string;
-
-		dataLayer?: {
-			hide?: {
-				end?: () => void;
-			};
-		};
-	}
-}
-
 (() => {
     'use strict';
 
@@ -21,8 +9,8 @@ declare global {
         get: () => noop,
     };
 
-    const gaPointer = (window.GoogleAnalyticsObject =
-		window.GoogleAnalyticsObject ?? 'ga');
+    window.GoogleAnalyticsObject = window.GoogleAnalyticsObject ?? 'ga';
+    const gaPointer = window.GoogleAnalyticsObject as keyof Window;
     const datalayer = window.dataLayer;
 
     // execute callback if exists, see https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#hitCallback
@@ -70,7 +58,7 @@ declare global {
     ga.getAll = () => [Tracker];
     ga.remove = noop;
 
-    window[gaPointer] = ga;
+    (window[gaPointer] as Window['ga']) = ga;
 
     if (typeof datalayer?.hide?.end !== 'function') {
         return;

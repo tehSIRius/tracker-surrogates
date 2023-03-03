@@ -17,10 +17,14 @@
     "esModuleInterop": true,
     "types": [
       "node"
+    ],
+    "typeRoots": [
+      "./types"
     ]
   },
   "include": [
     "scripts",
-    "surrogates"
+    "surrogates",
+    "types/window.d.ts"
   ]
 }
