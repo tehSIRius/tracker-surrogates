@@ -31,9 +31,7 @@ function messageAddon (detailObject: { entity?: string, appID?: string, action?:
 
     const originalFBURL = (document?.currentScript as HTMLScriptElement).src;
 
-    let siteInit = () => { 
-        // Placeholder
-    };
+    let siteInit = emptyFunction;
 
     let fbIsEnabled = false;
     let initData = {};
@@ -177,16 +175,12 @@ function messageAddon (detailObject: { entity?: string, appID?: string, action?:
 
                 callback({});
             },
-            getAccessToken: () => {
-                // Placeholder
-            },
+            getAccessToken: emptyFunction,
             getAuthResponse: () => {
                 return { status: '' };
             },
             getLoginStatus: (callback) => { callback({ status: 'unknown' }); },
-            getUserID: () => {
-                // Placeholder
-            },
+            getUserID: emptyFunction,
             login: (callback, parameters) => {
                 fbLogin.callback = callback;
                 fbLogin.params = parameters;
@@ -194,17 +188,11 @@ function messageAddon (detailObject: { entity?: string, appID?: string, action?:
                     action: 'login'
                 });
             },
-            logout: () => {
-                // Placeholder
-            },
+            logout: emptyFunction,
             AppEvents: {
                 EventNames: {},
-                logEvent: () => {
-                    // Placeholder
-                },
-                logPageView: () => {
-                    // Placeholder
-                }
+                logEvent: emptyFunction,
+                logPageView: emptyFunction,
             },
             Event: {
                 subscribe: function (event, callback) {
@@ -212,9 +200,7 @@ function messageAddon (detailObject: { entity?: string, appID?: string, action?:
                         callback();
                     }
                 },
-                unsubscribe: () => {
-                    // Placeholder
-                }
+                unsubscribe: emptyFunction,
             },
             XFBML: {
                 parse:  (node: Node) => {

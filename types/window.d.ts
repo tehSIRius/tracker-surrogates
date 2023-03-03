@@ -60,6 +60,10 @@ declare global {
 			}
 		};
 		fbAsyncInit: () => void;
+
+		// ga
+		_gat?: Record<string, unknown>;
+		_gaq?: Record<string, unknown>;
 	}
 }
 
