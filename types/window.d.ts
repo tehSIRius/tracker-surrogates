@@ -1,4 +1,16 @@
 declare global {
+	interface OutbrainObject {
+		ready: boolean;
+		error: () => void;
+		extern: object;
+		display: object;
+		controller: object;
+		printLog: () => void;
+		IntersectionObserver: () => void;
+		proxy: object;
+		languageManager: object;
+	}
+
 	interface Window {
 		// ad_status
 		google_ad_status?: number;
@@ -72,6 +84,14 @@ declare global {
 		googletag?: {
 			cmd?: string[];
 		}
+
+		// outbrain
+		OBR$: () => void;
+		OB_releaseVer: string;
+		OBR: OutbrainObject;
+		OB_PROXY: object;
+		outbrain: object;
+		outbrain_rater: object;
 	}
 }
 
