@@ -1,14 +1,12 @@
 (() => {
-    'use strict';
-
-    const noop = () => {
+    const emptyFunction = () => {
         // Placeholder
     };
-    const noopHandler = {
-        get: () => noop,
+    const emptyFunctionHandler = {
+        get: () => emptyFunction
     };
-    
-    const noopProxy = new Proxy({}, noopHandler);
+
+    const noopProxy = new Proxy({}, emptyFunctionHandler);
     window.pSUPERFLY = noopProxy;
     window.pSUPERFLY_mab = noopProxy;
 })();

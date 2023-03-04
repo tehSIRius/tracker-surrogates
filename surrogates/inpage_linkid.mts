@@ -1,11 +1,9 @@
 (() => {
-    'use strict';
-
-    const gaqObj = {
+    const gaqObject = {
         push: () => {
             // Placeholder
         }
     };
 
-    window._gaq = window._gaq ? window._gaq : gaqObj;
+    window._gaq = window._gaq ?? gaqObject;
 })();

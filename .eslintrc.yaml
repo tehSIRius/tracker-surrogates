@@ -1,26 +1,34 @@
-parserOptions:
-  sourceType: module
-
 plugins:
-  - '@typescript-eslint'
+    - "@typescript-eslint"
+    - prettier
 
 extends:
-  - eslint:recommended
-  - 'plugin:@typescript-eslint/recommended'
+    - eslint:recommended
+    - "plugin:@typescript-eslint/recommended"
+    - "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    - "plugin:@typescript-eslint/strict"
+    - "plugin:unicorn/recommended"
+    - prettier
 
 parser: "@typescript-eslint/parser"
 
+parserOptions:
+    sourceType: module
+    project: "./tsconfig.json"
+
 env:
-  browser: true
-  node: true
+    browser: true
+    node: true
 
 rules:
-  indent:
-    - error
-    - 4
-  
-  semi:
-    - error
-    - always
-  
-  node/no-callback-literal: off
+    indent:
+        - error
+        - 4
+
+    semi:
+        - error
+        - always
+
+    node/no-callback-literal: off
+
+    unicorn/filename-case: off

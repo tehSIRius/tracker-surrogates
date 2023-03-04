@@ -1,20 +1,18 @@
 (() => {
-    'use strict';
-
     if (window.amznads) {
         return;
     }
 
-    const noop = () => {
+    const emptyFunction = () => {
         // placeholder
     };
 
-    const noopHandler = {
-        get: () => noop,
+    const emptyFunctionHandler = {
+        get: () => emptyFunction
     };
 
-    window.amznads = new Proxy({}, noopHandler);
-    window.amzn_ads = window.amzn_ads ?? noop;
-    window.aax_write = window.aax_write ?? noop;
-    window.aax_render_ad = window.aax_render_ad ?? noop;
+    window.amznads = new Proxy({}, emptyFunctionHandler);
+    window.amzn_ads = window.amzn_ads ?? emptyFunction;
+    window.aax_write = window.aax_write ?? emptyFunction;
+    window.aax_render_ad = window.aax_render_ad ?? emptyFunction;
 })();

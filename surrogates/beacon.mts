@@ -1,14 +1,12 @@
 (() => {
-    'use strict';
-
-    const noop = () => {
+    const emptyFunction = () => {
         // Placeholder
     };
-    
-    window.udm_ = noop;
+
+    window.udm_ = emptyFunction;
     window._comscore = [];
     window.COMSCORE = {
-        beacon: noop,
+        beacon: emptyFunction,
         purge: () => {
             window._comscore = [];
         }

@@ -1,22 +1,20 @@
 (() => {
-    'use strict';
-
-    const noop = () => {
+    const emptyFunction = () => {
         // Placeholder
     };
 
     const cxApiHandler = {
-        get: (target: Record<string, unknown>, prop: string) => {
-            if (typeof target[prop] !== 'undefined') {
-                return Reflect.get(target, prop);
+        get: (target: Record<string, unknown>, property: string) => {
+            if (target[property] !== undefined) {
+                return Reflect.get(target, property);
             }
 
-            return noop;
-        },
+            return emptyFunction;
+        }
     };
 
     const cxApiTarget = {
-        chooseVariation: () => 0,
+        chooseVariation: () => 0
     };
 
     window.cxApi = new Proxy(cxApiTarget, cxApiHandler);

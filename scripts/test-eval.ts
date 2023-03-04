@@ -1,40 +1,51 @@
 /**
  * Runs all surrogates inside of a (fake) browser environment to check for obvious runtime issues.
  */
-import fs from 'fs';
-import path from 'path';
-import jsdom from 'jsdom';
-import { exit } from 'process';
+import fs from "node:fs";
+import path from "node:path";
+import { exit } from "node:process";
 
-const surrogatesDir = path.join(__dirname, '../surrogates');
+import jsdom from "jsdom";
 
-const allSurrogates = fs.readdirSync(surrogatesDir).map(filename => {
-    const filepath = path.resolve(surrogatesDir, filename);
+import { buildFile } from "./buildSurrogate";
+
+// eslint-disable-next-line unicorn/prefer-module
+const surrogatesDirectory = path.join(__dirname, "../surrogates");
+
+const allSurrogates = fs.readdirSync(surrogatesDirectory).map((filename) => {
+    const filepath = path.resolve(surrogatesDirectory, filename);
     const stat = fs.statSync(filepath);
 
     if (!stat.isFile()) {
         return Promise.resolve();
     }
 
-    const surrogateText = fs.readFileSync(filepath, 'utf-8');
+    const surrogateText = buildFile(filepath);
     const virtualConsole = new jsdom.VirtualConsole();
 
     let resolve: (value?: unknown) => void;
     let reject: (reason: string) => void;
-    const promise = new Promise((resolveCallback, rejectCallback) => { resolve = resolveCallback; reject = rejectCallback; });
-
-    virtualConsole.on('jsdomError', (e) => {
-        reject(`🛑 ${filename} fails with error "${e}"`);
+    const promise = new Promise((resolveCallback, rejectCallback) => {
+        resolve = resolveCallback;
+        reject = rejectCallback;
     });
 
-    const dom = new jsdom.JSDOM(`<body><script>${surrogateText}</script></body>`, { runScripts: 'dangerously', virtualConsole });
-    dom.window.addEventListener('DOMContentLoaded', () => resolve());
+    virtualConsole.on("jsdomError", (error) => {
+        console.log(error);
+        reject(`🛑 ${filename} fails with error "${JSON.stringify(error)}"`);
+    });
+
+    const dom = new jsdom.JSDOM(
+        `<body><script>${surrogateText}</script></body>`,
+        { runScripts: "dangerously", virtualConsole }
+    );
+    dom.window.addEventListener("DOMContentLoaded", () => resolve());
 
     return promise;
 });
 
-Promise.all(allSurrogates)
-    .catch(e => {
-        console.log(e);
-        exit(1);
-    });
+// eslint-disable-next-line unicorn/prefer-top-level-await
+Promise.all(allSurrogates).catch((error) => {
+    console.log(error);
+    exit(1);
+});

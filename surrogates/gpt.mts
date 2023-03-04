@@ -1,12 +1,9 @@
 (() => {
-    'use strict';
-
     const emptyFunction = () => {
         // Placeholder
     };
-    const emptyFunctionNull = () => null;
     const emptyFunctionArray = () => [];
-    const emptyFunctionString = () => '';
+    const emptyFunctionString = () => "";
     const emptyFunctionThis = () => this;
 
     const emptyFunctionHandler = {
@@ -21,7 +18,7 @@
 
     const noopReturnThisHandler = {
         get: (target: Record<string, unknown>, property: string) => {
-            if (!target[property] !== undefined) {
+            if (target[property] !== undefined) {
                 return Reflect.get(target, property);
             }
 
@@ -31,7 +28,7 @@
 
     const passbackTarget = {
         display: emptyFunction,
-        get: emptyFunctionNull
+        get: emptyFunction
     };
 
     const pubadsTarget = {
@@ -40,8 +37,9 @@
         clearTagForChildDirectedTreatment: emptyFunctionThis,
         clearTargeting: emptyFunctionThis,
         definePassback: () => new Proxy(passbackTarget, noopReturnThisHandler),
-        defineOutOfPagePassback: () => new Proxy(passbackTarget, noopReturnThisHandler),
-        get: emptyFunctionNull,
+        defineOutOfPagePassback: () =>
+            new Proxy(passbackTarget, noopReturnThisHandler),
+        get: emptyFunction,
         getAttributeKeys: emptyFunctionArray,
         getTargetingKeys: emptyFunctionArray,
         getSlots: emptyFunctionArray,
@@ -63,7 +61,7 @@
     };
 
     const sizeMappingTarget = {
-        build: emptyFunctionNull
+        build: emptyFunction
     };
 
     const contentTarget = {
@@ -71,7 +69,7 @@
     };
 
     const slotTarget = {
-        get: emptyFunctionNull,
+        get: emptyFunction,
         getAdUnitPath: emptyFunctionArray,
         getAttributeKeys: emptyFunctionArray,
         getCategoryExclusions: emptyFunctionArray,
@@ -81,7 +79,7 @@
         getTargetingKeys: emptyFunctionArray
     };
 
-    const gptObj = {
+    const gptObject = {
         _loadStarted_: true,
         apiReady: true,
         pubadsReady: true,
@@ -92,7 +90,7 @@
         content: () => new Proxy(contentTarget, emptyFunctionHandler),
         defineSlot: () => new Proxy(slotTarget, noopReturnThisHandler),
         defineOutOfPageSlot: () => new Proxy(slotTarget, noopReturnThisHandler),
-        defineUnit: emptyFunctionNull,
+        defineUnit: emptyFunction,
         destroySlots: emptyFunction,
         disablePublisherConsole: emptyFunction,
         display: emptyFunction,
@@ -101,9 +99,11 @@
         setAdIframeTitle: emptyFunction
     };
 
-    const commandQueue = (window.googletag && window.googletag.cmd?.length) ? window.googletag.cmd : [];
-    gptObj.cmd.push = (argument: unknown) => {
-        if (typeof argument !== 'function') {
+    const commandQueue = window.googletag?.cmd?.length
+        ? window.googletag.cmd
+        : [];
+    gptObject.cmd.push = (argument: unknown) => {
+        if (typeof argument !== "function") {
             return 1;
         }
 
@@ -116,8 +116,9 @@
         return 0;
     };
 
-    window.googletag = gptObj;
+    window.googletag = gptObject;
     while (commandQueue.length > 0) {
-        gptObj.cmd.push(commandQueue.shift() as string);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        gptObject.cmd.push(commandQueue.shift()!);
     }
 })();
