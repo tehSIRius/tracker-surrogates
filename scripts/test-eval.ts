@@ -7,7 +7,7 @@ import { exit } from "node:process";
 
 import jsdom from "jsdom";
 
-import { buildFile } from "./buildSurrogate";
+import { buildFile } from "./build";
 
 // eslint-disable-next-line unicorn/prefer-module
 const surrogatesDirectory = path.join(__dirname, "../surrogates");
@@ -31,7 +31,6 @@ const allSurrogates = fs.readdirSync(surrogatesDirectory).map((filename) => {
     });
 
     virtualConsole.on("jsdomError", (error) => {
-        console.log(error);
         reject(`🛑 ${filename} fails with error "${JSON.stringify(error)}"`);
     });
 

@@ -11,6 +11,7 @@ interface SurrogateRule {
     regexRule: string;
     surrogate: string;
 }
+export type { SurrogateRule };
 // The retyping here is not the cleanest but it is the easiest way to get it working.
 const mapping: Record<string, SurrogateRule[]> = untypedMapping;
 

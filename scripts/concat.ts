@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 
-import { buildFile } from "./buildSurrogate";
+import { buildFile } from "./build";
 import untypedMapping from "../mapping.json";
 
 interface SurrogateRule {

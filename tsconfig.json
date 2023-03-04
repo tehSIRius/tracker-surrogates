@@ -25,7 +25,8 @@
   "include": [
     "scripts",
     "surrogates",
-    "types"
+    "types",
+    "vite.config.ts"
   ],
   "ts-node": {
     "compilerOptions": {

@@ -8,6 +8,12 @@ I have limited the typing of `window` to what could be seen in the `surrogates` 
 
 Additionally, I have moved from `npm` to a forced usage of `pnpm`. This move is mostly motivated by faster install times.
 
+I have tried to keep the scripts as close in functionality to the original as possible. However, there are better approaches these days than when these scripts were seemingly written. I have therefore decided to create a separate suite of scripts with the modern approaches. They are available under `pnpm build:modern` and `pnpm test:modern`.
+
+For `pnpm build`, I rewrote the concat script to output the files into a JSON file. The new format should be much easier to parse and work with. Moreover, I have minified the surrogates scripts, because why not. Having readable scripts when the source code is readily available does not make much sense in production.
+
+For `pnpm test`, I used [vitest](https://vitest.dev/) as the test runner.
+
 ---
 
 Surrogates are small scripts that our apps and extensions serve in place of trackers that cause site breakage when blocked. Surrogates mock the API structure of the original scripts they replace, allowing pages that depend on the existence of certain methods, or properties, to function as if the original script was loaded.

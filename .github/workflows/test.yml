@@ -31,6 +31,14 @@ jobs:
               run: |
                   pnpm build
 
+            - name: Build Modern
+              run: |
+                  pnpm build:modern
+
             - name: Test
               run: |
                   pnpm test
+
+            - name: Test Modern
+              run: |
+                  pnpm test:modern
