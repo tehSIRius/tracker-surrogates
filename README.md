@@ -10,6 +10,9 @@
     <a href="https://codeclimate.com/github/tehSIRius/tracker-surrogates/maintainability">
         <img src="https://api.codeclimate.com/v1/badges/860c45e3365b6ec3e6b1/maintainability" />
     </a>
+    <a href="https://github.com/tehSIRius/tracker-surrogates/actions/workflows/codeql.yml">
+        <img src="https://github.com/tehSIRius/tracker-surrogates/actions/workflows/codeql.yml/badge.svg" alt="CodeQL Status" />
+    </a>
 </div>
 
 ## Patrik Dvořáček's Note
