@@ -1,5 +1,15 @@
 # tracker-surrogates
 
+## Patrik Dvořáček's Note
+
+I have forked this repository to try to modernize it. Mostly to implement TypeScript, a proper build system with esbuild and an opinionated linter.
+
+I have limited the typing of `window` to what could be seen in the `surrogates` scripts themselves. It would probably be much better to find the definitions for each script, if they exists, and import those.
+
+Additionally, I have moved from `npm` to a forced usage of `pnpm`. This move is mostly motivated by faster install times.
+
+---
+
 Surrogates are small scripts that our apps and extensions serve in place of trackers that cause site breakage when blocked. Surrogates mock the API structure of the original scripts they replace, allowing pages that depend on the existence of certain methods, or properties, to function as if the original script was loaded.
 
 ## How this repository is used
@@ -8,16 +18,17 @@ All surrogates are bundled together and [deployed to a CDN](https://duckduckgo.c
 For platforms that don't allow remote code execution this repository is imported as a git submodule and surrogates are embedded at build time.
 
 DuckDuckGo clients using surrogates:
-- [Chrome and Firefox extensions](https://github.com/duckduckgo/duckduckgo-privacy-extension)
-- [Safari extension](https://github.com/duckduckgo/privacy-essentials-safari)
-- [iOS app](https://github.com/duckduckgo/iOS)
-- [Android app](https://github.com/duckduckgo/Android)
+
+-   [Chrome and Firefox extensions](https://github.com/duckduckgo/duckduckgo-privacy-extension)
+-   [Safari extension](https://github.com/duckduckgo/privacy-essentials-safari)
+-   [iOS app](https://github.com/duckduckgo/iOS)
+-   [Android app](https://github.com/duckduckgo/Android)
 
 ## Structure of this repository
 
-- `scripts/` - testing and deployment scripts
-- `surrogates/` - surrogate files
-- `mapping.json` - list of regular expressions that map urls to surrogates that should be served as request responses. Data from this file is incorporated into the [web blocklist](https://github.com/duckduckgo/tracker-blocklists/tree/main/web).
+-   `scripts/` - testing and deployment scripts
+-   `surrogates/` - surrogate files
+-   `mapping.json` - list of regular expressions that map urls to surrogates that should be served as request responses. Data from this file is incorporated into the [web blocklist](https://github.com/duckduckgo/tracker-blocklists/tree/main/web).
 
 Format of the `mapping.json` file:
 

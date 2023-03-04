@@ -2,6 +2,13 @@ import fs from "node:fs";
 
 import { buildSync } from "esbuild";
 
+/**
+ * Build a source file into a JS script.
+ *
+ * @param filePath Path to the file to be build
+ *
+ * @returns Built JS script content
+ */
 export function buildFile(filePath: string): string {
     const stat = fs.statSync(filePath);
 
