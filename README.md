@@ -1,5 +1,17 @@
 # tracker-surrogates
 
+<div align="center">
+    <a href="https://github.com/tehSIRius/tracker-surrogates/actions/workflows/test.yml">
+        <img src="https://github.com/tehSIRius/tracker-surrogates/actions/workflows/test.yml/badge.svg" alt="Test Status" />
+    </a>
+    <a href="https://snyk.io/test/github/tehsirius/tracker-surrogates">
+        <img src="https://snyk.io/test/github/tehSIRius/tracker-surrogates/badge.svg" alt="Snyk Vulnerabilities Scan" />
+    </a>
+    <a href="https://codeclimate.com/github/tehSIRius/tracker-surrogates/maintainability">
+        <img src="https://api.codeclimate.com/v1/badges/860c45e3365b6ec3e6b1/maintainability" />
+    </a>
+</div>
+
 ## Patrik Dvořáček's Note
 
 I have forked this repository to try to modernize it. Mostly to implement TypeScript, a proper build system with esbuild and an opinionated linter.
