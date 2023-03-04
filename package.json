@@ -5,8 +5,9 @@
     "lint-js": "eslint .",
     "test-eval": "ts-node ./scripts/test-eval.ts",
     "test-mapping": "ts-node ./scripts/test-mapping.ts",
-    "test": "npm run lint-js && npm run test-mapping && npm run test-eval",
-    "build": "ts-node ./scripts/concat.ts"
+    "test": "pnpm lint-js && pnpm test-mapping && pnpm test-eval",
+    "build": "ts-node ./scripts/concat.ts",
+    "preinstall": "npx only-allow pnpm"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,6 @@
     "esbuild": "^0.17.5",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
-    "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
