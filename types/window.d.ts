@@ -11,16 +11,22 @@ declare global {
 		languageManager: object;
 	}
 
+	class YoutubePlayer {
+	    public playerInfo?: object;
+
+	    constructor(target: Element, configuration: object, remainingArguments?: unknown[]);
+	}
+
 	interface Window {
 		// ad_status
 		google_ad_status?: number;
-	
+
 		// amzn_ads
 		amznads?: object;
 		amzn_ads?: object;
 		aax_write?: object;
 		aax_render_ad?: object;
-	
+
 		// analytics
 		GoogleAnalyticsObject?: string;
 		ga?: object;
@@ -54,7 +60,7 @@ declare global {
 			init: (initiationData: { appId?: string }) => void;
 			ui: (parameters: { method?: string, href: string }, callback: (parameters?: object) => void) => void;
 			getAccessToken: () => void;
-			getAuthResponse: () => { status: string};
+			getAuthResponse: () => { status: string };
 			getLoginStatus: (callback: ({ status: string }) => void) => void;
 			getUserID: () => void;
 			login: (callback: () => void, parameters?: Record<string, unknown>) => void;
@@ -92,7 +98,32 @@ declare global {
 		OB_PROXY: object;
 		outbrain: object;
 		outbrain_rater: object;
+
+		// youtube-iframe-api
+		YTConfig: {
+			host: string;
+		}
+		YT?: {
+			loading: number;
+			loaded: number;
+			Player: YoutubePlayer;
+			PlayerState: {
+				UNSTARTED: number;
+				ENDED: number;
+				PLAYING: number;
+				PAUSED: number;
+				BUFFERING: number;
+				CUED: number;
+			}
+			setConfig: (configuration: object) => void;
+			get: () => void;
+			ready: () => void;
+			scan: () => void;
+			subscribe: () => void;
+			unsubscribe: () => void;
+		}
+		onYouTubeIframeAPIReady: (value: unknown) => void;
 	}
 }
 
-export {};
+export { };

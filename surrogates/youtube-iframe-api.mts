@@ -1,3 +1,28 @@
+declare const YT: unknown;
+
+interface PlayerConfiguration {
+    height?: string;
+    width?: string;
+    videoId?: string;
+    playerVars?: {
+        list?: string;
+    };
+    events?: {
+        onReady: () => void;
+        onStateChange: () => void;
+    };
+}
+
+interface OnElementAnnouncedHandlerArgument { 
+    target: Element, 
+    detail: { 
+        entity: string, 
+        widgetID: string, 
+        replaceSettings: { 
+        type: string 
+    }}
+}
+
 (() => {
     'use strict';
 
@@ -13,14 +38,15 @@
     const defaultWidth = 390;
 
     // The website's `onYouTubeIframeAPIReady` listener (if any).
-    let realOnYouTubeIframeAPIReady;
+    let realOnYouTubeIframeAPIReady: (value?: unknown) => void | undefined;
 
     // Reference to the "real" `YT.Player` constructor.
-    let RealYTPlayer = null;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    let realYTPlayer: YoutubePlayer | undefined;
 
     // Loading state of the YouTube Iframe API.
     let youTubeIframeAPILoaded = false;
-    let youTubeIframeAPILoadingPromise = null;
+    let youTubeIframeAPILoadingPromise: Promise<void> | undefined;
 
     // Mappings between mock `YT.Player` Objects, their element in the page and
     // any event listeners they might have.
@@ -37,15 +63,15 @@
     /**
      * Mock of the `YT.Player` constructor.
      */
-    function Player (target, config = { }, ...rest) {
+    function Player (this: YoutubePlayer, target: Element, configuration: PlayerConfiguration = { }, ...rest: unknown[]) {
         if (youTubeIframeAPILoaded) {
-            return new RealYTPlayer(target, config, ...rest);
+            return new YoutubePlayer(target, configuration, rest);
         }
 
-        const { height, width, videoId, playerVars = { }, events } = config;
+        const { height, width, videoId, playerVars = { }, events } = configuration;
 
         if (!(target instanceof Element)) {
-            target = document.getElementById(target);
+            target = document.getElementById(target) as Element;
         }
 
         // Normalise target to always be the video element instead of the
@@ -66,7 +92,7 @@
             // For videos (not playlists) append the video ID to the path.
             // See https://developers.google.com/youtube/player_parameters
             if (!playerVars.list) {
-                url.pathname += encodeURIComponent(videoId);
+                url.pathname += encodeURIComponent(videoId as string);
             }
 
             for (const [key, value] of Object.entries(playerVars)) {
@@ -78,8 +104,8 @@
             url.searchParams.set('enablejsapi', '1');
 
             const videoIframe = document.createElement('iframe');
-            videoIframe.height = parseInt(height, 10) || defaultHeight;
-            videoIframe.width = parseInt(width, 10) || defaultWidth;
+            videoIframe.height = (parseInt(height ?? '0', 10) ?? defaultHeight).toString();
+            videoIframe.width = (parseInt(width ?? '0', 10) ?? defaultWidth).toString();
             videoIframe.src = url.href;
 
             if (target.id) {
@@ -113,7 +139,7 @@
     window.YT = {
         loading: 1,
         loaded: 1,
-        Player,
+        Player: Player as unknown as YoutubePlayer,
         PlayerState: {
             UNSTARTED: -1,
             ENDED: 0,
@@ -122,16 +148,26 @@
             BUFFERING: 3,
             CUED: 5
         },
-        setConfig (config) {
-            for (const key of Object.keys(config)) {
-                window.YTConfig[key] = config[key];
+        setConfig (configuration) {
+            for (const [key, value] of Object.entries(configuration)) {
+                window.YTConfig[key as keyof typeof window.YTConfig] = value;
             }
         },
-        get () { },
-        ready () { },
-        scan () { },
-        subscribe () { },
-        unsubscribe () { }
+        get: () => {
+            // Placeholder
+        },
+        ready: () => {
+            // Placeholder
+        },
+        scan: () => {
+            // Placeholder
+        },
+        subscribe: () => {
+            // Placeholder
+        },
+        unsubscribe: () => {
+            // Placeholder
+        }
     };
 
     /**
@@ -139,23 +175,24 @@
      * @return {Promise}
      *   Promise which resolves after the API has finished loading.
      */
-    function ensureYouTubeIframeAPILoaded () {
+    function ensureYouTubeIframeAPILoaded (): Promise<void> {
         if (youTubeIframeAPILoaded) {
             return Promise.resolve();
         }
+
         if (youTubeIframeAPILoadingPromise) {
             return youTubeIframeAPILoadingPromise;
         }
 
-        const loadingPromise = new Promise((resolve, reject) => {
+        const loadingPromise = new Promise((resolve) => {
             // The YouTube Iframe API calls the `onYouTubeIframeAPIReady`
             // function to signal that it is ready for use by the website.
             window.onYouTubeIframeAPIReady = resolve;
         }).then(() => {
             window.onYouTubeIframeAPIReady = realOnYouTubeIframeAPIReady;
-            RealYTPlayer = window.YT.Player;
+            realYTPlayer = window.YT?.Player;
             youTubeIframeAPILoaded = true;
-            youTubeIframeAPILoadingPromise = null;
+            youTubeIframeAPILoadingPromise = undefined;
         });
 
         // Delete the stub `YT` Object, since its presence will prevent the
@@ -185,18 +222,20 @@
         }
     }
 
-    function onElementAnnounced (name) {
-        return ({
-            target,
-            detail: {
-                entity, widgetID: videoID,
-                replaceSettings: { type: replaceType }
-            }
-        }) => {
+    function onElementAnnounced (name: string) {
+        const onElementAnnouncedHandler = (event: Event) => {
+            const {
+                target,
+                detail: {
+                    entity, widgetID: videoID,
+                    replaceSettings: { type: replaceType }
+                }
+            } = event as unknown as OnElementAnnouncedHandlerArgument;
+
             if (entity !== youtubeEntityName || replaceType !== 'youtube-video') {
                 return;
             }
-
+    
             let entry = videoElementsByID.get(videoID);
             if (entry) {
                 entry[name] = target;
@@ -208,15 +247,18 @@
                 videoElementsByID.set(videoID, entry);
             }
         };
+
+        return onElementAnnouncedHandler;
     }
 
-    async function onPlaceholderClicked ({
-        target,
-        detail: {
-            entity,
-            replaceSettings: { type: replaceType }
-        }
-    }) {
+    async function onPlaceholderClicked (this: YoutubePlayer, event: Event) {
+        const {
+            target,
+            detail: {
+                entity,
+                replaceSettings: { type: replaceType }
+            }} = event as unknown as OnElementAnnouncedHandlerArgument;
+
         if (entity !== youtubeEntityName || replaceType !== 'youtube-video') {
             return;
         }
@@ -231,12 +273,12 @@
         const onReadyListener = onReadyListenerByVideoElement.get(target);
         const onStateChangeListener = onStateChangeListenerByVideoElement.get(target);
 
-        const config = { events: { } };
+        const config: { events: { onStateChange?: unknown, onReady?: (args: unknown) => void}} = { events: { } };
         if (onStateChangeListener) {
             config.events.onStateChange = onStateChangeListener;
         }
 
-        let realPlayer; // eslint-disable-line prefer-const
+        let realPlayer: YoutubePlayer; // eslint-disable-line prefer-const
 
         config.events.onReady = (...args) => {
             // Make a best attempt at turning the mock `YT.Player` instance into
@@ -259,15 +301,15 @@
                     // Plain value, replace with getter + setter.
                     delete descriptor.writable;
                     delete descriptor.value;
-                    descriptor.get = () => realPlayer[property];
-                    descriptor.set = (newValue) => { realPlayer[property] = newValue; };
+                    descriptor.get = () => realPlayer[property as keyof YoutubePlayer];
+                    descriptor.set = (newValue: unknown) => { realPlayer[property as keyof YoutubePlayer] = newValue as YoutubePlayer[keyof YoutubePlayer]; };
                 } else {
                     // Method or getter + setter. Rebind to apply to the "real"
                     // instance.
                     for (const key of ['get', 'set', 'value']) {
-                        const value = descriptor[key];
+                        const value = descriptor[key as keyof typeof descriptor];
                         if (typeof value === 'function') {
-                            descriptor[key] = value.bind(realPlayer);
+                            descriptor[key as keyof typeof descriptor] = value.bind(realPlayer);
                         }
                     }
                 }
@@ -285,7 +327,7 @@
             }
         };
 
-        realPlayer = new RealYTPlayer(target, config);
+        realPlayer = new YoutubePlayer(target, config);
 
         onReadyListenerByVideoElement.delete(target);
         onStateChangeListenerByVideoElement.delete(target);
