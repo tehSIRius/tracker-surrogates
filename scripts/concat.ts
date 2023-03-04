@@ -47,4 +47,4 @@ const output = [introduction, ...surrogates].join("\n");
 fs.writeFileSync(path.join(buildsDirectory, "surrogates-next.txt"), output);
 
 const hash = crypto.createHash("md5").update(output).digest("hex");
-console.log(`MD5 hash:`, hash);
+console.log(`MD5 hash: ${hash}`);

@@ -241,7 +241,7 @@ interface OnElementAnnouncedHandlerArgument {
         // Note: There's a chance that website will attempt to reference the
         //       `YT` Object inbetween now and when the script has loaded. This
         //       is unfortunate but unavoidable.
-        delete window.YT;
+        window.YT = undefined;
 
         // Load the YouTube Iframe API.
         const script = document.createElement("script");
@@ -364,8 +364,8 @@ interface OnElementAnnouncedHandlerArgument {
                     !descriptor.set
                 ) {
                     // Plain value, replace with getter + setter.
-                    delete descriptor.writable;
-                    delete descriptor.value;
+                    descriptor.writable = undefined;
+                    descriptor.value = undefined;
                     descriptor.get = () =>
                         realPlayer[property as keyof YoutubePlayer];
                     descriptor.set = (newValue: unknown) => {
@@ -395,7 +395,7 @@ interface OnElementAnnouncedHandlerArgument {
                     }
                 }
             }
-            delete this.playerInfo;
+            this.playerInfo = undefined;
             Object.defineProperties(mockPlayer, properties);
 
             // Set the "real" player instance as the prototype of the mock. That

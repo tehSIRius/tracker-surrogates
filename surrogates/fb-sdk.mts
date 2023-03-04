@@ -178,9 +178,7 @@ function messageAddon(detailObject: {
             },
             ui: (parameters, callback) => {
                 if (parameters.method && parameters.method === "share") {
-                    const shareLink =
-                        "https://www.facebook.com/sharer/sharer.php?u=" +
-                        parameters.href;
+                    const shareLink = `https://www.facebook.com/sharer/sharer.php?u=${parameters.href}`;
                     window.open(
                         shareLink,
                         "share-facebook",
