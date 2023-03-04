@@ -2,10 +2,10 @@
   "name": "@duckduckgo/tracker-surrogates",
   "description": "Surrogates are small scripts that our apps and extensions serve in place of trackers that cause things to break when blocked.",
   "scripts": {
-    "lint-js": "eslint .",
-    "test-eval": "ts-node ./scripts/test-eval.ts",
-    "test-mapping": "ts-node ./scripts/test-mapping.ts",
-    "test": "pnpm lint-js && pnpm test-mapping && pnpm test-eval",
+    "lint": "eslint .",
+    "test:eval": "ts-node ./scripts/test-eval.ts",
+    "test:mapping": "ts-node ./scripts/test-mapping.ts",
+    "test": "pnpm lint && pnpm test:mapping && pnpm test:eval",
     "build": "ts-node ./scripts/concat.ts",
     "preinstall": "npx only-allow pnpm"
   },
